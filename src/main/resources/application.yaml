@@ -1,0 +1,31 @@
+server:
+  port: 8087
+
+logging:
+  pattern:
+    console: "[AUTH-CLIENT] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+
+# Actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring.security.oauth2:
+  resourceserver:
+    jwt:
+      issuer-uri: http://localhost:8081/auth/realms/jms
+      jwk-set-uri: http://localhost:8081/auth/realms/jms/protocol/openid-connect/certs
+
+admin:
+  auth-server-url: http://localhost:8081/auth
+  keycloak:
+    masterRealm: master
+    realm:  childrealm
+    clientId: admin-cli
+    username: admin@admin.com
+    password: adminpassword

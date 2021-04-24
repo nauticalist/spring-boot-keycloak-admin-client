@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    io.seanapse.clients: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+  pattern:
+    console: "[CLIENTS-CMD] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      group:
+        readiness:
+          include: readinessState,db
+        liveness:
+          include: livenessState,ping,diskSpace
+
+spring.security.oauth2:
+  resourceserver:
+    jwt:
+      issuer-uri: ${AUTH_SERVER-ISSUER_URI}
+      jwk-set-uri: ${AUTH_SERVER-JWK_SET_URI}
+
+admin:
+  auth-server-url: ${AUTH_SERVER-URL}
+  keycloak:
+    masterRealm: ${AUTH_SERVER-MASTER_REALM}
+    realm:  ${AUTH_SERVER-REALM}
+    clientId: ${AUTH_SERVER-MASTER_CLIENTID}
+    username: ${AUTH_SERVER-ADMIN_USERNAME}
+    password: ${AUTH_SERVER-ADMIN_PASSWORD}
